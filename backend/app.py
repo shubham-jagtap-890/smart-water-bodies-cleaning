@@ -21,7 +21,11 @@ def create_app():
     app = Flask(__name__, static_folder=None)
     uri = os.getenv("DATABASE_URL", "sqlite:///water.db")
     if uri.startswith("postgres://"):
-        uri = uri.replace("postgres://", "postgresql://", 1)
+        uri = uri.replace("postgres://", "postgresql+psycopg2://", 1)
+    elif uri.startswith("postgresql://"):
+        uri = uri.replace("postgresql://", "postgresql+psycopg2://", 1)
+    elif uri.startswith("postgresql+psycopg://"):
+        uri = uri.replace("postgresql+psycopg://", "postgresql+psycopg2://", 1)
     app.config.update(
         SECRET_KEY=os.getenv("SECRET_KEY", "dev-only-change-me"),
         SQLALCHEMY_DATABASE_URI=uri,
