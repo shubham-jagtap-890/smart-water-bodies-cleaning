@@ -1,0 +1,22 @@
+# Render Blueprint - creates the free web service. Database = Neon (free, see README).
+services:
+  - type: web
+    name: water-bodies-watch
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL        # paste your Neon connection string in the Render dashboard
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CRON_KEY
+        generateValue: true
+      - key: GEMINI_API_KEY      # optional - free key from aistudio.google.com
+        sync: false
+      - key: OPENWEATHER_API_KEY # optional
+        sync: false
+      - key: SEED_DEMO
+        value: "true"
+      - key: RESPONSE_HOURS
+        value: "48"
